@@ -6,7 +6,7 @@ class NotImplemented extends BaseError {
     super(
       "NotImplemented",
       StatusCodes.NOT_IMPLEMENTED,
-      `${methodName} Not Implemented`,
+      `${methodName} - Not Implemented`,
       {}
     );
   }

@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser')
 
 const { PORT } = require("./config/server.config");
-const BaseError = require('./errors/base.error');
+const errorHandler = require("./utils/error.handler");
+const apiRouter = require('./routes');
 
 const app = express();
 
@@ -11,10 +12,16 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.text())
 
+//if any re comes with rute /api, map to apiRouter
+app.use("/api", apiRouter)
 
 app.get("/ping", (req, res)=>{
     return res.json({message: "Problem service is alive"})
 }) 
+
+//its the last middleware: if any error comes, just redirect to errorHandler
+//In problem controller, we have used next(error) to redirect to errorHandler
+app.use(errorHandler)
 
 app.listen(PORT,()=>{
     console.log(`Server is listening at PORT: ${PORT}`)
