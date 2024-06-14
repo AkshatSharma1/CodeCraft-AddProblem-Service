@@ -3,10 +3,12 @@ const { ProblemService } = require("../services");
 const { ProblemRepository } = require("../repositories");
 const { StatusCodes } = require("http-status-codes");
 const BadRequest = require("../errors/badrequest.error");
+const logger = require("../config/logger.config")
 
 const problemService = new ProblemService(new ProblemRepository());
 
 function pingProblemController(req, res) {
+    logger.error("Logs for ping controller")
     return res.json({message: 'Problem controller is up'});
 }
 
@@ -57,7 +59,7 @@ async function getProblems(req, res, next) {
 async function deleteProblem(req, res, next) {
     try {
         const deletedProblem = await problemService.deleteProblem(req.params.id);
-        console.log(deletedProblem)
+        // console.log(deletedProblem)
         return res.status(StatusCodes.OK).json({
             success: true,
             message: 'Successfully deleted the problem',
